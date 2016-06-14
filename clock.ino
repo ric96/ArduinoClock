@@ -39,6 +39,7 @@ void setup() {
   pinMode(16,OUTPUT);
   pinMode(8,OUTPUT);
   pinMode(7,INPUT);
+  pinMode(9,OUTPUT);
   digitalWrite(17, HIGH);
   digitalWrite(16, LOW);
   digitalWrite(8, LOW);
@@ -57,7 +58,7 @@ void setup() {
 }
 
 void loop() { 
-
+  analogWrite(9,0);
   DateTime now = RTC.now();
   lc.displayChar(0,now.minute()%10); //minute ones
   lc.displayChar(1,now.minute()/10); //minutes tens
@@ -74,6 +75,10 @@ void loop() {
     {
       lc.setLed(2,6,j,false);
     }
+  }
+  if(now.second() == 00 && now.minute() == 0)
+  {
+    analogWrite(9,80);
   }
   if (digitalRead(7) == LOW)
   {
