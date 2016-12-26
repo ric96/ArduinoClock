@@ -20,7 +20,8 @@ LedControl lc=LedControl(12,11,10, NBR_MTX);
 /* we always wait a bit between updates of the display */
 unsigned long delaytime=300;
 int cl=0, weekday, temp, hum, d, m ,y, i, j;
-
+long previousMillis = 0;
+long interval = 1000;
 void setup() {
   /*
    The MAX72XX is in power-saving mode on startup,
@@ -60,6 +61,10 @@ void setup() {
 }
 
 void loop() { 
+  unsigned long currentMillis = millis();
+  if(currentMillis - previousMillis > interval) 
+  {
+    previousMillis = currentMillis;
   analogWrite(9,0);
   DateTime now = RTC.now();
   lc.displayChar(0,now.minute()%10); //minute ones
@@ -82,12 +87,18 @@ void loop() {
   {
     analogWrite(9,80);
   }
+  //delay(1000);
+  }
+//########END MAIN CLOCK##########
+  
+  
   if (digitalRead(7) == LOW)
   {
     for (cl=0;cl<=7;cl++)
   {
     lc.setLed(2,6,cl,false);
   }
+  DateTime now = RTC.now();
   lc.displayChar(0,now.month()%10); //month ones
   lc.displayChar(1,now.month()/10); //month tens
   lc.displayChar(2,now.day()%10); //day ones
@@ -143,7 +154,6 @@ void loop() {
   delay(3000);
   lc.clearAll();
   }
-  delay(1000);
   
 }
 
