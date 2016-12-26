@@ -6,7 +6,7 @@
 dht DHT;
 
 #define DHT11_PIN 2 
-RTC_DS1307 RTC;
+RTC_DS3231 RTC;
 /*
  Now we need a LedControl to work with.
  ***** These pin numbers will probably not work with your hardware *****
@@ -47,11 +47,13 @@ void setup() {
   Wire.begin();
   RTC.begin();
  
-  if (! RTC.isrunning()) {
+  if (! RTC.begin()) {
     Serial.println("RTC is NOT running!");
     // following line sets the RTC to the date & time this sketch was compiled
-    //RTC.adjust(DateTime(__DATE__, __TIME__));
+
   }
+    //RTC.adjust(DateTime(__DATE__, __TIME__));
+
   
   
 
